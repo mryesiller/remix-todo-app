@@ -1,3 +1,11 @@
 node_modules
-# Keep environment variables out of version control
+
+.cache
 .env
+.vercel
+.output
+
+/build/
+/public/build
+/api/index.js
+/api/index.js.map
