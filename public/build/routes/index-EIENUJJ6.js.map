@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../app/routes/index.jsx"],
+  "sourcesContent": ["export default function Index() {\r\n  return <h1 className=\"text-blue-600\">TEST</h1>\r\n}\r\n"],
+  "mappings": ";;;;;;AACS;AADM,SAAR,QAAyB;AAC9B,SAAO,mDAAC;AAAA,IAAG,WAAU;AAAA,IAAgB;AAAA,KAA9B;AAAA;AAAA;AAAA;AAAA,SAAkC;AAC3C;",
+  "names": []
+}
