@@ -123,7 +123,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react");
 
 // app/styles/tailwind.css
-var tailwind_default = "/build/_assets/tailwind-SQCK5HXJ.css";
+var tailwind_default = "/build/_assets/tailwind-53EKKKUV.css";
 
 // app/root.jsx
 var import_jsx_dev_runtime2 = require("react/jsx-dev-runtime"), meta = () => ({
@@ -189,12 +189,100 @@ function App() {
   }, this);
 }
 
+// app/routes/dashboard.jsx
+var dashboard_exports = {};
+__export(dashboard_exports, {
+  default: () => dashboard_default,
+  loader: () => loader
+});
+var import_node4 = require("@remix-run/node");
+
+// app/utils/auth/auth.server.js
+var import_node3 = require("@remix-run/node");
+
+// app/utils/auth/session.server.js
+var import_node2 = require("@remix-run/node"), sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret)
+  throw new Error("SESSION_SECRET must be set");
+var sessionStorage = (0, import_node2.createCookieSessionStorage)({
+  cookie: {
+    name: "session",
+    secure: !0,
+    secrets: [sessionSecret],
+    path: "/",
+    sameSite: "lax",
+    httpOnly: !0,
+    maxAge: 24 * 60 * 60
+  }
+});
+
+// app/utils/auth/auth.server.js
+async function createUserSession(userId, redirectTo) {
+  let session = await sessionStorage.getSession();
+  return session.set("userId", userId), (0, import_node3.redirect)(redirectTo, {
+    headers: {
+      "Set-Cookie": await sessionStorage.commitSession(session)
+    }
+  });
+}
+async function getUserFromSession(request) {
+  return (await sessionStorage.getSession(request.headers.get("Cookie"))).get("userId");
+}
+async function destroyUserSession(request) {
+  let session = await sessionStorage.getSession(request.headers.get("Cookie"));
+  return (0, import_node3.redirect)("/", {
+    headers: {
+      "Set-Cookie": await sessionStorage.destroySession(session)
+    }
+  });
+}
+async function requireUserSession(request) {
+  let userId = await getUserFromSession(request);
+  if (!userId)
+    throw (0, import_node3.redirect)("/auth");
+  return userId;
+}
+
+// app/routes/dashboard.jsx
+var import_react3 = require("@remix-run/react"), import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), loader = async ({ request }) => (await requireUserSession(request), null), DashboardLayout = () => /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", {
+  children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("h1", {
+      children: "Layout"
+    }, void 0, !1, {
+      fileName: "app/routes/dashboard.jsx",
+      lineNumber: 13,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Form, {
+      method: "post",
+      action: "/logout",
+      children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("button", {
+        type: "submit",
+        className: "",
+        children: "Logout"
+      }, void 0, !1, {
+        fileName: "app/routes/dashboard.jsx",
+        lineNumber: 15,
+        columnNumber: 9
+      }, this)
+    }, void 0, !1, {
+      fileName: "app/routes/dashboard.jsx",
+      lineNumber: 14,
+      columnNumber: 7
+    }, this)
+  ]
+}, void 0, !0, {
+  fileName: "app/routes/dashboard.jsx",
+  lineNumber: 12,
+  columnNumber: 5
+}, this), dashboard_default = DashboardLayout;
+
 // app/routes/dashboard/todos.$todoId.jsx
 var todos_todoId_exports = {};
 __export(todos_todoId_exports, {
   default: () => todos_todoId_default
 });
-var import_react3 = require("react"), import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), Todo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", {
+var import_react4 = require("react"), import_jsx_dev_runtime4 = require("react/jsx-dev-runtime"), Todo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", {
   children: "Todo"
 }, void 0, !1, {
   fileName: "app/routes/dashboard/todos.$todoId.jsx",
@@ -207,7 +295,7 @@ var todos_update_exports = {};
 __export(todos_update_exports, {
   default: () => todos_update_default
 });
-var import_react4 = require("react"), import_jsx_dev_runtime4 = require("react/jsx-dev-runtime"), UpdateTodo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", {
+var import_react5 = require("react"), import_jsx_dev_runtime5 = require("react/jsx-dev-runtime"), UpdateTodo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("div", {
   children: "UpdateTodo"
 }, void 0, !1, {
   fileName: "app/routes/dashboard/todos.update.jsx",
@@ -220,7 +308,7 @@ var todos_new_exports = {};
 __export(todos_new_exports, {
   default: () => todos_new_default
 });
-var import_react5 = require("react"), import_jsx_dev_runtime5 = require("react/jsx-dev-runtime"), NewTodo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("div", {
+var import_react6 = require("react"), import_jsx_dev_runtime6 = require("react/jsx-dev-runtime"), NewTodo = () => /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("div", {
   children: " CreateTodo"
 }, void 0, !1, {
   fileName: "app/routes/dashboard/todos.new.jsx",
@@ -229,24 +317,24 @@ var import_react5 = require("react"), import_jsx_dev_runtime5 = require("react/j
 }, this), todos_new_default = NewTodo;
 
 // app/routes/dashboard/index.jsx
-var dashboard_exports = {};
-__export(dashboard_exports, {
-  default: () => dashboard_default
+var dashboard_exports2 = {};
+__export(dashboard_exports2, {
+  default: () => dashboard_default2
 });
-var import_react6 = require("react"), import_jsx_dev_runtime6 = require("react/jsx-dev-runtime"), Dashboard = () => /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("div", {
+var import_react7 = require("react"), import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), Dashboard = () => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("div", {
   children: "Dashboard"
 }, void 0, !1, {
   fileName: "app/routes/dashboard/index.jsx",
   lineNumber: 4,
   columnNumber: 10
-}, this), dashboard_default = Dashboard;
+}, this), dashboard_default2 = Dashboard;
 
 // app/routes/dashboard/todos.jsx
 var todos_exports = {};
 __export(todos_exports, {
   default: () => todos_default
 });
-var import_react7 = require("react"), import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), Todos = () => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("div", {
+var import_react8 = require("react"), import_jsx_dev_runtime8 = require("react/jsx-dev-runtime"), Todos = () => /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("div", {
   children: "Todos"
 }, void 0, !1, {
   fileName: "app/routes/dashboard/todos.jsx",
@@ -254,104 +342,443 @@ var import_react7 = require("react"), import_jsx_dev_runtime7 = require("react/j
   columnNumber: 10
 }, this), todos_default = Todos;
 
-// app/routes/Dashboard.jsx
-var Dashboard_exports = {};
-__export(Dashboard_exports, {
-  default: () => Dashboard_default
+// app/routes/logout.js
+var logout_exports = {};
+__export(logout_exports, {
+  action: () => action
 });
-var import_react8 = require("react"), import_jsx_dev_runtime8 = require("react/jsx-dev-runtime"), DashboardLayout = () => /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("div", {
-  children: "Layout"
-}, void 0, !1, {
-  fileName: "app/routes/Dashboard.jsx",
-  lineNumber: 4,
-  columnNumber: 10
-}, this), Dashboard_default = DashboardLayout;
+var import_node5 = require("@remix-run/node");
+function action({ request }) {
+  if (request.method !== "POST")
+    throw (0, import_node5.json)({ message: "Invalid request method" }, { status: 400 });
+  return destroyUserSession(request);
+}
 
 // app/routes/index.jsx
 var routes_exports = {};
 __export(routes_exports, {
   default: () => Index
 });
+var import_react12 = require("@remix-run/react");
 
-// app/components/common/Button.jsx
-var import_react9 = require("react"), import_jsx_dev_runtime9 = require("react/jsx-dev-runtime"), Button = ({ children, type, className, color, size }) => {
-  let buttonSizes = {
-    sm: "px-4 py-1.5 rounded-sm",
-    md: "px-6 py-3 rounded-md",
-    lg: "px-7 py-4 rounded-lg"
-  }, buttonColors = {
-    primary: "bg-blue-500 active:bg-blue-700",
-    secondary: "bg-slate-500 active:bg-slate-700",
-    info: "bg-cyan-500 active:bg-cyan-700",
-    danger: "bg-red-500 active:bg-red-700",
-    warning: "bg-orange-500 active:bg-orange-700",
-    success: "bg-emerald-600 active:bg-emerald-800"
-  }, buttonBase = "m-2 inline-block text-white font-bold uppercase align-middle transition-all cursor-pointer leading-normal text-xs ease-in tracking-tight-rem ", buttonEffects = "shadow-xs bg-150 bg-x-25 hover:-translate-y-px hover:shadow-md ", buttonSize = buttonSizes[size] || buttonSizes.md, buttonColor = buttonColors[color] || buttonColors.primary, buttonClassName = `${buttonBase} ${buttonEffects} ${buttonSize} ${buttonColor} `;
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime9.jsxDEV)("button", {
-    type: type || "button",
-    className: buttonClassName + className,
-    children
+// app/components/navigation/mainNavigation.jsx
+var import_react9 = require("react"), import_classnames = __toESM(require("classnames")), import_jsx_dev_runtime9 = require("react/jsx-dev-runtime");
+function Navbar({ children, color, className, ...rest }) {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime9.jsxDEV)(import_jsx_dev_runtime9.Fragment, {
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime9.jsxDEV)("nav", {
+      ...rest,
+      className: (0, import_classnames.default)(
+        "w-full flex flex-wrap items-center justify-between px-2 py-3 mb-3",
+        {
+          light: "bg-blueGray-200",
+          dark: "bg-blueGray-800",
+          transparent: "bg-transparent",
+          white: "bg-white",
+          blueGray: "bg-blueGray-500",
+          red: "bg-red-500",
+          orange: "bg-orange-500",
+          amber: "bg-amber-500",
+          emerald: "bg-emerald-500",
+          teal: "bg-teal-500",
+          lightBlue: "bg-lightBlue-500",
+          indigo: "bg-indigo-500",
+          purple: "bg-purple-500",
+          pink: "bg-pink-500"
+        }[color],
+        className
+      ),
+      children
+    }, void 0, !1, {
+      fileName: "app/components/navigation/mainNavigation.jsx",
+      lineNumber: 24,
+      columnNumber: 7
+    }, this)
   }, void 0, !1, {
-    fileName: "app/components/common/Button.jsx",
-    lineNumber: 28,
+    fileName: "app/components/navigation/mainNavigation.jsx",
+    lineNumber: 23,
     columnNumber: 5
   }, this);
-}, Button_default = Button;
+}
+
+// app/components/navigation/navbarLink.jsx
+var import_react10 = require("react"), import_classnames2 = __toESM(require("classnames")), import_react11 = require("@remix-run/react"), import_jsx_dev_runtime10 = require("react/jsx-dev-runtime");
+function NavbarListLink({
+  children,
+  className,
+  breakpoint,
+  type,
+  to,
+  ...rest
+}) {
+  let types = {
+    light: "text-white",
+    dark: "text-blueGray-800"
+  }, breakpoints = {
+    all: "py-2",
+    sm: "py-4 sm:py-2",
+    md: "py-4 md:py-2",
+    lg: "py-4 lg:py-2",
+    xl: "py-4 xl:py-2"
+  }, classes = (0, import_classnames2.default)(
+    "hover:opacity-75 px-3 flex items-center text-xs uppercase font-bold transition-all duration-150 ease-in-out",
+    className,
+    types[type],
+    breakpoints[breakpoint]
+  );
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(import_jsx_dev_runtime10.Fragment, {
+    children: [
+      to && /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(import_react11.Link, {
+        ...rest,
+        to,
+        className: classes,
+        children
+      }, void 0, !1, {
+        fileName: "app/components/navigation/navbarLink.jsx",
+        lineNumber: 34,
+        columnNumber: 9
+      }, this),
+      to === void 0 && /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("a", {
+        ...rest,
+        className: classes,
+        children
+      }, void 0, !1, {
+        fileName: "app/components/navigation/navbarLink.jsx",
+        lineNumber: 39,
+        columnNumber: 9
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/components/navigation/navbarLink.jsx",
+    lineNumber: 32,
+    columnNumber: 5
+  }, this);
+}
 
 // app/routes/index.jsx
-var import_jsx_dev_runtime10 = require("react/jsx-dev-runtime");
+var import_jsx_dev_runtime11 = require("react/jsx-dev-runtime"), navProps = { color: "orange", className: "text-white" };
 function Index() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("div", {
-    className: "ml-5",
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)("div", {
+    className: "w-full",
     children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("h1", {
-        className: "text-blue-600",
-        children: "TEST"
-      }, void 0, !1, {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)(Navbar, {
+        ...navProps,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)(NavbarListLink, {
+            to: "/dashboard",
+            children: "Dashboard"
+          }, void 0, !1, {
+            fileName: "app/routes/index.jsx",
+            lineNumber: 13,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)(NavbarListLink, {
+            to: "/auth",
+            children: "Login"
+          }, void 0, !1, {
+            fileName: "app/routes/index.jsx",
+            lineNumber: 14,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
         fileName: "app/routes/index.jsx",
-        lineNumber: 6,
+        lineNumber: 12,
         columnNumber: 7
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)(Button_default, {
-        type: "button",
-        color: "primary",
-        children: "button"
-      }, void 0, !1, {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)("br", {}, void 0, !1, {
         fileName: "app/routes/index.jsx",
-        lineNumber: 7,
+        lineNumber: 17,
         columnNumber: 7
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("br", {}, void 0, !1, {
-        fileName: "app/routes/index.jsx",
-        lineNumber: 10,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime10.jsxDEV)("button", {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime11.jsxDEV)("button", {
         type: "button",
         className: "mr-3 inline-block px-6 py-3 font-bold text-center bg-gradient-to-tl from-blue-500 to-violet-500 uppercase align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in tracking-tight-rem shadow-xs bg-150 bg-x-25 hover:-translate-y-px active:opacity-85 hover:shadow-md text-white",
         children: "Button"
       }, void 0, !1, {
         fileName: "app/routes/index.jsx",
-        lineNumber: 11,
+        lineNumber: 18,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "app/routes/index.jsx",
-    lineNumber: 5,
+    lineNumber: 11,
     columnNumber: 5
   }, this);
 }
 
-// app/routes/Login.jsx
-var Login_exports = {};
-__export(Login_exports, {
-  loader: () => loader
+// app/routes/auth.jsx
+var auth_exports = {};
+__export(auth_exports, {
+  action: () => action2,
+  default: () => auth_default,
+  loader: () => loader2
 });
-var import_node2 = require("@remix-run/node"), import_auth = require("~utils/auth/auth.server"), loader = async ({ request }) => await (0, import_auth.getUser)(request) ? (0, import_node2.redirect)("/dashboard") : null;
+var import_node7 = require("@remix-run/node");
+var import_react14 = require("@remix-run/react");
+
+// app/components/layouts/form-wrapper.jsx
+var import_react13 = require("react"), import_jsx_dev_runtime12 = require("react/jsx-dev-runtime"), FormWrapper = ({ children }) => /* @__PURE__ */ (0, import_jsx_dev_runtime12.jsxDEV)("div", {
+  className: "h-screen flex justify-center items-center",
+  children
+}, void 0, !1, {
+  fileName: "app/components/layouts/form-wrapper.jsx",
+  lineNumber: 5,
+  columnNumber: 5
+}, this), form_wrapper_default = FormWrapper;
+
+// app/utils/auth/validate.server.js
+function isValidEmail(value) {
+  return value && value.includes("@");
+}
+function isValidPassword(value) {
+  return value && value.trim().length >= 7;
+}
+function validateCredentials(input) {
+  let validationErrors = {};
+  if (isValidEmail(input.email) || (validationErrors.email = "Invalid email address."), isValidPassword(input.password) || (validationErrors.password = "Invalid password. Must be at least 7 characters long."), Object.keys(validationErrors).length > 0)
+    throw validationErrors;
+}
+
+// app/utils/data/user.server.js
+var import_bcryptjs = __toESM(require("bcryptjs")), import_node6 = require("@remix-run/node");
+
+// app/utils/config/prisma.server.js
+var import_client = require("@prisma/client"), prisma;
+global.__db || (global.__db = new import_client.PrismaClient(), global.__db.$connect()), prisma = global.__db;
+
+// app/utils/data/user.server.js
+var login = async ({ email, password }) => {
+  try {
+    let user = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    });
+    return !user || !await import_bcryptjs.default.compare(password, user.password) ? (0, import_node6.json)({ error: "Incorrect login" }, { status: 400 }) : createUserSession(user.id, "/dashboard");
+  } catch {
+    return (0, import_node6.json)({ error: "Failed to login" }, { status: 400 });
+  }
+}, register = async ({ username, email, password }) => {
+  if (await prisma.user.findFirst({ where: { email } }))
+    return (0, import_node6.json)({ error: "Email already exists" }, { status: 400 });
+  let passwordHash = await import_bcryptjs.default.hash(password, 10);
+  try {
+    let user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        password: passwordHash
+      }
+    });
+    return createUserSession(user.id, "/dashboard");
+  } catch (error) {
+    return console.log(error), (0, import_node6.json)({ error: "Failed to register" }, { status: 400 });
+  }
+};
+
+// app/routes/auth.jsx
+var import_jsx_dev_runtime13 = require("react/jsx-dev-runtime"), loader2 = async ({ request }) => await getUserFromSession(request) ? (0, import_node7.redirect)("/dashboard") : (0, import_node7.json)({});
+async function action2({ request }) {
+  let authMode = new URL(request.url).searchParams.get("mode") || "login", formData = await request.formData(), credentials = Object.fromEntries(formData);
+  try {
+    validateCredentials(credentials);
+  } catch (error) {
+    return error;
+  }
+  try {
+    return authMode === "login" ? await login(credentials) : await register(credentials);
+  } catch (error) {
+    if (error.status === 422)
+      return { credentials: error.message };
+  }
+}
+var Login = () => {
+  let [searchParams] = (0, import_react14.useSearchParams)(), validationErrors = (0, import_react14.useActionData)(), authMode = searchParams.get("mode") || "login";
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)(form_wrapper_default, {
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("div", {
+      className: "w-full max-w-xs",
+      children: [
+        /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("h1", {
+          className: "text-center font-semibold uppercase mb-3",
+          children: authMode === "login" ? "Login" : "Register"
+        }, void 0, !1, {
+          fileName: "app/routes/auth.jsx",
+          lineNumber: 112,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)(import_react14.Form, {
+          method: "post",
+          className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4",
+          autoComplete: "off",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("div", {
+              className: "mb-4",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("label", {
+                  className: "block text-gray-700 text-sm font-bold mb-2",
+                  htmlFor: "email",
+                  children: "Email"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 121,
+                  columnNumber: 13
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("input", {
+                  className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+                  id: "email",
+                  name: "email",
+                  type: "email",
+                  placeholder: "Email"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 127,
+                  columnNumber: 13
+                }, this),
+                (validationErrors == null ? void 0 : validationErrors.email) && /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("p", {
+                  className: "text-red-500 text-xs italic",
+                  children: validationErrors.email
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 135,
+                  columnNumber: 15
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/auth.jsx",
+              lineNumber: 120,
+              columnNumber: 11
+            }, this),
+            authMode === "signup" && /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("div", {
+              className: "mb-4",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("label", {
+                  className: "block text-gray-700 text-sm font-bold mb-2",
+                  htmlFor: "username",
+                  children: "Username"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 142,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("input", {
+                  className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+                  id: "username",
+                  name: "username",
+                  type: "text",
+                  placeholder: "Username"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 148,
+                  columnNumber: 15
+                }, this),
+                (validationErrors == null ? void 0 : validationErrors.username) && /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("p", {
+                  className: "text-red-500 text-xs italic",
+                  children: validationErrors.email
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 156,
+                  columnNumber: 17
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/auth.jsx",
+              lineNumber: 141,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("div", {
+              className: "mb-6",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("label", {
+                  className: "block text-gray-700 text-sm font-bold mb-2",
+                  htmlFor: "password",
+                  children: "Password"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 163,
+                  columnNumber: 13
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("input", {
+                  className: "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+                  id: "password",
+                  name: "password",
+                  type: "password",
+                  placeholder: "******************"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 169,
+                  columnNumber: 13
+                }, this),
+                (validationErrors == null ? void 0 : validationErrors.password) && /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("p", {
+                  className: "text-red-500 text-xs italic",
+                  children: validationErrors.password
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 177,
+                  columnNumber: 15
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/auth.jsx",
+              lineNumber: 162,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("div", {
+              className: "flex items-center justify-between",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("button", {
+                  className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+                  type: "submit",
+                  children: authMode === "login" ? "Login" : "Register"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 183,
+                  columnNumber: 13
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)(import_react14.Link, {
+                  className: "inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800",
+                  to: authMode === "login" ? "?mode=signup" : "?mode=login",
+                  children: authMode === "login" ? "Dont have an account?" : "Have an account?"
+                }, void 0, !1, {
+                  fileName: "app/routes/auth.jsx",
+                  lineNumber: 189,
+                  columnNumber: 13
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/auth.jsx",
+              lineNumber: 182,
+              columnNumber: 11
+            }, this)
+          ]
+        }, void 0, !0, {
+          fileName: "app/routes/auth.jsx",
+          lineNumber: 115,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ (0, import_jsx_dev_runtime13.jsxDEV)("p", {
+          className: "text-center text-gray-500 text-xs",
+          children: "\xA92020 Acme Corp. All rights reserved."
+        }, void 0, !1, {
+          fileName: "app/routes/auth.jsx",
+          lineNumber: 199,
+          columnNumber: 9
+        }, this)
+      ]
+    }, void 0, !0, {
+      fileName: "app/routes/auth.jsx",
+      lineNumber: 111,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
+    fileName: "app/routes/auth.jsx",
+    lineNumber: 110,
+    columnNumber: 5
+  }, this);
+}, auth_default = Login;
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "aa20e4cc", entry: { module: "/build/entry.client-5PBAS2ZB.js", imports: ["/build/_shared/chunk-PGLV2AOZ.js", "/build/_shared/chunk-KIQSGYIA.js", "/build/_shared/chunk-42Z7WWMI.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-CJPEDUPH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/Dashboard": { id: "routes/Dashboard", parentId: "root", path: "Dashboard", index: void 0, caseSensitive: void 0, module: "/build/routes/Dashboard-GWZLHA3I.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/Login": { id: "routes/Login", parentId: "root", path: "Login", index: void 0, caseSensitive: void 0, module: "/build/routes/Login-P3RP3MNA.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/index": { id: "routes/dashboard/index", parentId: "root", path: "dashboard", index: !0, caseSensitive: void 0, module: "/build/routes/dashboard/index-ZBUCDCOW.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos": { id: "routes/dashboard/todos", parentId: "root", path: "dashboard/todos", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos-RFWKEEDP.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.$todoId": { id: "routes/dashboard/todos.$todoId", parentId: "root", path: "dashboard/todos/:todoId", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.$todoId-FZMADQ27.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.new": { id: "routes/dashboard/todos.new", parentId: "root", path: "dashboard/todos/new", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.new-SLD7UQ7L.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.update": { id: "routes/dashboard/todos.update", parentId: "root", path: "dashboard/todos/update", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.update-PZH7B3Y7.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-DOPIPCIE.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-AA20E4CC.js" };
+var assets_manifest_default = { version: "01913684", entry: { module: "/build/entry.client-2AVTCKAL.js", imports: ["/build/_shared/chunk-X7HYHKD5.js", "/build/_shared/chunk-VPGYRKCU.js", "/build/_shared/chunk-5KL4PAQL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-SQERJTFL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth": { id: "routes/auth", parentId: "root", path: "auth", index: void 0, caseSensitive: void 0, module: "/build/routes/auth-ZGIBAQHE.js", imports: ["/build/_shared/chunk-5PKAW3K5.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard": { id: "routes/dashboard", parentId: "root", path: "dashboard", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard-T6MPKD34.js", imports: ["/build/_shared/chunk-5PKAW3K5.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/index": { id: "routes/dashboard/index", parentId: "routes/dashboard", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/dashboard/index-KQ67CY7M.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos": { id: "routes/dashboard/todos", parentId: "routes/dashboard", path: "todos", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos-R2AMAJHB.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.$todoId": { id: "routes/dashboard/todos.$todoId", parentId: "routes/dashboard", path: "todos/:todoId", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.$todoId-Z7X7D4X7.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.new": { id: "routes/dashboard/todos.new", parentId: "routes/dashboard", path: "todos/new", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.new-FILYK42Q.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/dashboard/todos.update": { id: "routes/dashboard/todos.update", parentId: "routes/dashboard", path: "todos/update", index: void 0, caseSensitive: void 0, module: "/build/routes/dashboard/todos.update-WQMEDBQQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-N2RDK3MQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-TIVGJ7SQ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-01913684.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public\\build", future = { v2_meta: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
@@ -363,53 +790,61 @@ var assetsBuildDirectory = "public\\build", future = { v2_meta: !1 }, publicPath
     caseSensitive: void 0,
     module: root_exports
   },
+  "routes/dashboard": {
+    id: "routes/dashboard",
+    parentId: "root",
+    path: "dashboard",
+    index: void 0,
+    caseSensitive: void 0,
+    module: dashboard_exports
+  },
   "routes/dashboard/todos.$todoId": {
     id: "routes/dashboard/todos.$todoId",
-    parentId: "root",
-    path: "dashboard/todos/:todoId",
+    parentId: "routes/dashboard",
+    path: "todos/:todoId",
     index: void 0,
     caseSensitive: void 0,
     module: todos_todoId_exports
   },
   "routes/dashboard/todos.update": {
     id: "routes/dashboard/todos.update",
-    parentId: "root",
-    path: "dashboard/todos/update",
+    parentId: "routes/dashboard",
+    path: "todos/update",
     index: void 0,
     caseSensitive: void 0,
     module: todos_update_exports
   },
   "routes/dashboard/todos.new": {
     id: "routes/dashboard/todos.new",
-    parentId: "root",
-    path: "dashboard/todos/new",
+    parentId: "routes/dashboard",
+    path: "todos/new",
     index: void 0,
     caseSensitive: void 0,
     module: todos_new_exports
   },
   "routes/dashboard/index": {
     id: "routes/dashboard/index",
-    parentId: "root",
-    path: "dashboard",
+    parentId: "routes/dashboard",
+    path: void 0,
     index: !0,
     caseSensitive: void 0,
-    module: dashboard_exports
+    module: dashboard_exports2
   },
   "routes/dashboard/todos": {
     id: "routes/dashboard/todos",
-    parentId: "root",
-    path: "dashboard/todos",
+    parentId: "routes/dashboard",
+    path: "todos",
     index: void 0,
     caseSensitive: void 0,
     module: todos_exports
   },
-  "routes/Dashboard": {
-    id: "routes/Dashboard",
+  "routes/logout": {
+    id: "routes/logout",
     parentId: "root",
-    path: "Dashboard",
+    path: "logout",
     index: void 0,
     caseSensitive: void 0,
-    module: Dashboard_exports
+    module: logout_exports
   },
   "routes/index": {
     id: "routes/index",
@@ -419,13 +854,13 @@ var assetsBuildDirectory = "public\\build", future = { v2_meta: !1 }, publicPath
     caseSensitive: void 0,
     module: routes_exports
   },
-  "routes/Login": {
-    id: "routes/Login",
+  "routes/auth": {
+    id: "routes/auth",
     parentId: "root",
-    path: "Login",
+    path: "auth",
     index: void 0,
     caseSensitive: void 0,
-    module: Login_exports
+    module: auth_exports
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

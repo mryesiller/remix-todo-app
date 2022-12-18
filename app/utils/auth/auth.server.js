@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/node"
 
-import sessionStorage from "./session.server"
+import { sessionStorage } from "./session.server"
 
 export async function createUserSession(userId, redirectTo) {
   const session = await sessionStorage.getSession()
@@ -15,9 +15,6 @@ export async function createUserSession(userId, redirectTo) {
 export async function getUserFromSession(request) {
   const session = await sessionStorage.getSession(request.headers.get("Cookie"))
   const userId = session.get("userId")
-  if (!userId) {
-    return null
-  }
   return userId
 }
 
@@ -33,7 +30,7 @@ export async function destroyUserSession(request) {
 export async function requireUserSession(request) {
   const userId = await getUserFromSession(request)
   if (!userId) {
-    throw redirect("/login")
+    throw redirect("/auth")
   }
   return userId
 }

@@ -1,12 +1,19 @@
 import Button from "~/components/common/Button"
+import { Link } from "@remix-run/react"
+
+import Navbar from "~/components/navigation/mainNavigation"
+import NavbarListLink from "~/components/navigation/navbarLink"
+
+const navProps = { color: "orange", className: "text-white" }
 
 export default function Index() {
   return (
-    <div className="ml-5">
-      <h1 className="text-blue-600">TEST</h1>
-      <Button type="button" color="primary">
-        button
-      </Button>
+    <div className="w-full">
+      <Navbar {...navProps}>
+        <NavbarListLink to="/dashboard">Dashboard</NavbarListLink>
+        <NavbarListLink to="/auth">Login</NavbarListLink>
+      </Navbar>
+
       <br></br>
       <button
         type="button"
